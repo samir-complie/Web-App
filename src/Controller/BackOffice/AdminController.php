@@ -8,10 +8,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class AdminController extends AbstractController
 {
-    #[Route('/admin', name: 'app_back_office_admin')]
+    #[Route('/dashboard', name: 'app_back_office_admin')]
     public function index(): Response
     {
-        return $this->render('back_office/admin/index.html.twig', [
+        return $this->render('back_office/dashboard.html.twig', [
             'controller_name' => 'AdminController',  // Suppression du path complet du nom de la classe
         ]);
     }
