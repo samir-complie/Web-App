@@ -17,8 +17,7 @@ class Livraison
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?bool $is_etat = null;
+    
 
     /**
      * @var Collection<int, Commande>
@@ -28,9 +27,40 @@ class Livraison
 
     #[ORM\ManyToOne(inversedBy: 'livraisons')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Transporteur $id_transporteur = null;
+    private ?Transporteur $transporteur = null;
 
-    public function __construct()
+    public function getTransporteur(): ?Transporteur
+    {
+        return $this->transporteur;
+    }
+
+    public function setTransporteur(?Transporteur $transporteur): static
+    {
+        $this->transporteur = $transporteur;
+
+        return $this;
+    }
+
+    #[ORM\ManyToOne(inversedBy: 'livraisons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Voiture $voiture = null;
+
+    public function getVoiture(): ?Voiture
+    {
+        return $this->voiture;
+    }
+
+    public function setVoiture(?Voiture $voiture): static
+    {
+        $this->voiture = $voiture;
+
+        return $this;
+    } 
+
+    #[ORM\Column(length: 255)]
+    private ?string $etat_livraison = null;
+
+    public function __construct() 
     {
         $this->id_commande = new ArrayCollection();
     }
@@ -38,18 +68,6 @@ class Livraison
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function isEtat(): ?bool
-    {
-        return $this->is_etat;
-    }
-
-    public function setIsEtat(bool $is_etat): static
-    {
-        $this->is_etat = $is_etat;
-
-        return $this;
     }
 
     /**
@@ -82,14 +100,14 @@ class Livraison
         return $this;
     }
 
-    public function getIdTransporteur(): ?Transporteur
+    public function getEtatLivraison(): ?string
     {
-        return $this->id_transporteur;
+        return $this->etat_livraison;
     }
 
-    public function setIdTransporteur(?Transporteur $id_transporteur): static
+    public function setEtatLivraison(string $etat_livraison): static
     {
-        $this->id_transporteur = $id_transporteur;
+        $this->etat_livraison = $etat_livraison;
 
         return $this;
     }

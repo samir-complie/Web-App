@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<title>Détails de la Voiture</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+{% block body %}
+    <h1 style="text-align: center; color: #333; margin-bottom: 20px;">Détails de la Voiture</h1>
+    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <table style="width: 100%; border-collapse: collapse;" >
+        <tbody>
+            <tr>
+                <th "padding: 12px; border-bottom: 1px solid #ddd; text-align: left; width: 30%; color: #555;">Id</th>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; color: #333;" >{{ voiture.id }}</td>
+            </tr>
+            <tr>
+                <th style="padding: 12px; border-bottom: 1px solid #ddd; text-align: left; width: 30%; color: #555;">Model</th>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; color: #333;">{{ voiture.model }}</td>
+            </tr>
+            <tr>
+                <th style="padding: 12px; border-bottom: 1px solid #ddd; text-align: left; width: 30%; color: #555;">Matricule</th>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; color: #333;">{{ voiture.matricule }}</td>
+            </tr>
+            <tr>
+                <th style="padding: 12px; border-bottom: 1px solid #ddd; text-align: left; width: 30%; color: #555;" >Capacite</th>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; color: #333;" >{{ voiture.capacite }}</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+     <div style="text-align: center; margin-top: 20px;">
+            <a href="{{ path('app_voiture_index') }}" class="btn btn-secondary" style="padding: 10px 20px; border-radius: 4px; text-decoration: none; color: #fff; margin: 0 5px;">Retour à la liste</a>
+            <a href="{{ path('app_voiture_edit', {'id': voiture.id}) }}" class="btn btn-warning" style="padding: 10px 20px; border-radius: 4px; text-decoration: none; color: #fff; margin: 0 5px;">Modifier</a>
+            {{ include('voiture/_delete_form.html.twig') }}
+        </div>
+    </div>
+
+    
+{% endblock %}

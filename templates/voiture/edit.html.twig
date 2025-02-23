@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<title>Modifer la Voiture</title>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+{% block body %}
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-body">
+                 <h1 class="text-center mb-4">Modifier la Voiture</h1>
+ 
+
+    {{ include('voiture/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+        <div class="text-center mt-4">
+            <a href="{{ path('app_voiture_index') }}" class="btn btn-secondary">Retour à la liste</a>
+            {{ include('voiture/_delete_form.html.twig') }}
+        </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock %}

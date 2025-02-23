@@ -1,0 +1,53 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Détails de la Livraison{% endblock %}
+
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center text-success mb-4">Détails de la Livraison</h1>
+
+    <div class="card shadow p-4">
+    <table class="table table-bordered text-center align-middle">
+        <tbody>
+            <tr>
+                <th>Id: </th>
+                <td>{{ livraison.id }}</td>
+            </tr>
+            <tr>
+                <th class="bg-light">Etat_livraison: </th>
+                <td>
+                     {% if livraison.etatLivraison == 'Livrée' %}
+                            <span class="badge bg-success">{{ livraison.etatLivraison }}</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">{{ livraison.etatLivraison }}</span>
+                        {% endif %}
+                    </td>
+            </tr>
+            <tr>
+                <th class="bg-light">Transporteur: </th>
+                <td>{{ livraison.transporteur.nom }} {{ livraison.transporteur.prenom }}</td>
+            </tr>
+            <tr>
+                <th class="bg-light">Voiture: </th>
+                <td>{{ livraison.voiture.matricule }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+         <div class="d-flex justify-content-between mt-4">
+            <a href="{{ path('app_livraison_index') }}" class="btn btn-success">
+                <i class="bi bi-arrow-left"></i> Retour à la liste
+            </a>
+            <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}" class="btn btn-warning">
+                <i class="bi bi-pencil"></i> Modifier
+            </a>
+            <form method="post" action="{{ path('app_livraison_delete', {'id': livraison.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette livraison ?');">
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Supprimer
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

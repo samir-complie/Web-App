@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250213115941 extends AbstractMigration
+final class Version20250222201041 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -25,7 +25,7 @@ final class Version20250213115941 extends AbstractMigration
         $this->addSql('CREATE TABLE commande (id INT AUTO_INCREMENT NOT NULL, id_client_commande_id INT NOT NULL, livraison_id INT NOT NULL, produit VARCHAR(255) NOT NULL, prix DOUBLE PRECISION NOT NULL, adresse LONGTEXT NOT NULL, num_tel INT NOT NULL, UNIQUE INDEX UNIQ_6EEAA67D83B9C0 (id_client_commande_id), INDEX IDX_6EEAA67D8E54FB25 (livraison_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE enchere (id INT AUTO_INCREMENT NOT NULL, id_gagnant_id INT NOT NULL, id_agriculteur_id INT NOT NULL, id_produit_enchere_id INT NOT NULL, derniere_prix DOUBLE PRECISION NOT NULL, INDEX IDX_38D1870FA773C26F (id_gagnant_id), INDEX IDX_38D1870F43DD3C08 (id_agriculteur_id), UNIQUE INDEX UNIQ_38D1870FC211E559 (id_produit_enchere_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE historique (id INT AUTO_INCREMENT NOT NULL, offre DOUBLE PRECISION NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE livraison (id INT AUTO_INCREMENT NOT NULL, id_transporteur_id INT NOT NULL, is_etat TINYINT(1) NOT NULL, INDEX IDX_A60C9F1F7E96AC2C (id_transporteur_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE livraison (id INT AUTO_INCREMENT NOT NULL, id_transporteur_id INT NOT NULL, voiture_id INT NOT NULL, etat_livraison VARCHAR(255) NOT NULL, INDEX IDX_A60C9F1F7E96AC2C (id_transporteur_id), INDEX IDX_A60C9F1F181A8BA (voiture_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE notification (id INT AUTO_INCREMENT NOT NULL, type VARCHAR(255) NOT NULL, description LONGTEXT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE panier (id INT AUTO_INCREMENT NOT NULL, id_client_id INT NOT NULL, UNIQUE INDEX UNIQ_24CC0DF299DED506 (id_client_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE panier_produit_store (panier_id INT NOT NULL, produit_store_id INT NOT NULL, INDEX IDX_CC2EEE7DF77D927C (panier_id), INDEX IDX_CC2EEE7D998D9A02 (produit_store_id), PRIMARY KEY(panier_id, produit_store_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -35,6 +35,7 @@ final class Version20250213115941 extends AbstractMigration
         $this->addSql('CREATE TABLE reponse (id INT AUTO_INCREMENT NOT NULL, user_id_id INT NOT NULL, description LONGTEXT NOT NULL, INDEX IDX_5FB6DEC79D86650F (user_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE transporteur (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(100) NOT NULL, prenom VARCHAR(255) NOT NULL, is_disponible TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE users (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL COMMENT \'(DC2Type:json)\', password VARCHAR(255) NOT NULL, nom VARCHAR(100) NOT NULL, prenom VARCHAR(100) NOT NULL, adresse VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE voiture (id INT AUTO_INCREMENT NOT NULL, model VARCHAR(255) NOT NULL, matricule VARCHAR(255) NOT NULL, capacite DOUBLE PRECISION NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE messenger_messages (id BIGINT AUTO_INCREMENT NOT NULL, body LONGTEXT NOT NULL, headers LONGTEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', available_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', delivered_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_75EA56E0FB7336F0 (queue_name), INDEX IDX_75EA56E0E3BD61CE (available_at), INDEX IDX_75EA56E016BA31DB (delivered_at), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE commande ADD CONSTRAINT FK_6EEAA67D83B9C0 FOREIGN KEY (id_client_commande_id) REFERENCES panier (id)');
         $this->addSql('ALTER TABLE commande ADD CONSTRAINT FK_6EEAA67D8E54FB25 FOREIGN KEY (livraison_id) REFERENCES livraison (id)');
@@ -42,6 +43,7 @@ final class Version20250213115941 extends AbstractMigration
         $this->addSql('ALTER TABLE enchere ADD CONSTRAINT FK_38D1870F43DD3C08 FOREIGN KEY (id_agriculteur_id) REFERENCES agriculteur (id)');
         $this->addSql('ALTER TABLE enchere ADD CONSTRAINT FK_38D1870FC211E559 FOREIGN KEY (id_produit_enchere_id) REFERENCES produit_enchere (id)');
         $this->addSql('ALTER TABLE livraison ADD CONSTRAINT FK_A60C9F1F7E96AC2C FOREIGN KEY (id_transporteur_id) REFERENCES transporteur (id)');
+        $this->addSql('ALTER TABLE livraison ADD CONSTRAINT FK_A60C9F1F181A8BA FOREIGN KEY (voiture_id) REFERENCES voiture (id)');
         $this->addSql('ALTER TABLE panier ADD CONSTRAINT FK_24CC0DF299DED506 FOREIGN KEY (id_client_id) REFERENCES users (id)');
         $this->addSql('ALTER TABLE panier_produit_store ADD CONSTRAINT FK_CC2EEE7DF77D927C FOREIGN KEY (panier_id) REFERENCES panier (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE panier_produit_store ADD CONSTRAINT FK_CC2EEE7D998D9A02 FOREIGN KEY (produit_store_id) REFERENCES produit_store (id) ON DELETE CASCADE');
@@ -62,6 +64,7 @@ final class Version20250213115941 extends AbstractMigration
         $this->addSql('ALTER TABLE enchere DROP FOREIGN KEY FK_38D1870F43DD3C08');
         $this->addSql('ALTER TABLE enchere DROP FOREIGN KEY FK_38D1870FC211E559');
         $this->addSql('ALTER TABLE livraison DROP FOREIGN KEY FK_A60C9F1F7E96AC2C');
+        $this->addSql('ALTER TABLE livraison DROP FOREIGN KEY FK_A60C9F1F181A8BA');
         $this->addSql('ALTER TABLE panier DROP FOREIGN KEY FK_24CC0DF299DED506');
         $this->addSql('ALTER TABLE panier_produit_store DROP FOREIGN KEY FK_CC2EEE7DF77D927C');
         $this->addSql('ALTER TABLE panier_produit_store DROP FOREIGN KEY FK_CC2EEE7D998D9A02');
@@ -86,6 +89,7 @@ final class Version20250213115941 extends AbstractMigration
         $this->addSql('DROP TABLE reponse');
         $this->addSql('DROP TABLE transporteur');
         $this->addSql('DROP TABLE users');
+        $this->addSql('DROP TABLE voiture');
         $this->addSql('DROP TABLE messenger_messages');
     }
 }

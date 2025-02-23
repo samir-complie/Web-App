@@ -4,7 +4,7 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class FrontOffice/HomeControllerTest extends WebTestCase{
+final class HomeControllerTest extends WebTestCase{
     public function testIndex(): void
     {
         $client = static::createClient();

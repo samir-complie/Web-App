@@ -1,0 +1,18 @@
+{{ form_start(form, {'attr': {'class': 'bg-light p-4 rounded shadow-sm'}}) }}
+    <div class="form-group">
+        {{ form_label(form.etat_livraison, 'État de la livraison', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.etat_livraison, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.transporteur, 'Transporteur', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.transporteur, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.voiture, 'Voiture', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.voiture, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">{{ button_label|default('Mettre à jour') }}</button>
+    </div>
+{{ form_end(form) }} 

@@ -23,14 +23,11 @@ class Transporteur
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
-    #[ORM\Column]
-    private ?bool $is_disponible = null;
+   
 
     /**
      * @var Collection<int, Livraison>
      */
-    #[ORM\OneToMany(targetEntity: Livraison::class, mappedBy: 'id_transporteur')]
-    private Collection $livraisons;
 
     public function __construct()
     {
@@ -65,15 +62,18 @@ class Transporteur
 
         return $this;
     }
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private ?bool $isDisponible ;
+
 
     public function isDisponible(): ?bool
     {
-        return $this->is_disponible;
+        return $this->isDisponible;
     }
 
-    public function setIsDisponible(bool $is_disponible): static
+    public function setIsDisponible(bool $isDisponible): static
     {
-        $this->is_disponible = $is_disponible;
+        $this->isDisponible = $isDisponible;
 
         return $this;
     }
@@ -81,16 +81,22 @@ class Transporteur
     /**
      * @return Collection<int, Livraison>
      */
-    public function getLivraisons(): Collection
+    
+     
+    #[ORM\OneToMany(targetEntity: Livraison::class, mappedBy: 'transporteur')]
+
+     private Collection $livraisons;
+
+     public function getLivraisons(): Collection
     {
         return $this->livraisons;
     }
 
-    public function addLivraison(Livraison $livraison): static
+    public function addLivraisons(Livraison $livraison): static
     {
         if (!$this->livraisons->contains($livraison)) {
             $this->livraisons->add($livraison);
-            $livraison->setIdTransporteur($this);
+            $livraison->setTransporteur($this);
         }
 
         return $this;
@@ -100,8 +106,8 @@ class Transporteur
     {
         if ($this->livraisons->removeElement($livraison)) {
             // set the owning side to null (unless already changed)
-            if ($livraison->getIdTransporteur() === $this) {
-                $livraison->setIdTransporteur(null);
+            if ($livraison->getTransporteur() === $this) {
+                $livraison->setTransporteur(null);
             }
         }
 

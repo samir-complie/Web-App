@@ -1,0 +1,37 @@
+/* Add to your main CSS file */
+.btn-group-toggle input[type="radio"] {
+    display: none;
+}
+
+.btn-group-toggle label {
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-group-toggle input[type="radio"]:checked + label {
+    color: white;
+}
+
+.btn-group-toggle input[type="radio"]:nth-child(1):checked + label {
+    background-color: green;
+}
+
+.btn-group-toggle input[type="radio"]:nth-child(2):checked + label {
+    background-color: red;
+}
+
+.btn-group-toggle label:nth-child(1) {
+    background-color: #28a745; /* Green */
+    color: white;
+}
+
+.btn-group-toggle label:nth-child(2) {
+    background-color: #dc3545; /* Red */
+    color: white;
+}
+
+.btn-group-toggle label:hover {
+    opacity: 0.8;
+}
