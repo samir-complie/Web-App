@@ -1,0 +1,42 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Hello FrontOffice/ProductSingleController!{% endblock %}
+
+{% block body %}
+    <h1>Agriculteur</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ agriculteur.id }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ agriculteur.phone }}</td>
+            </tr>
+            <tr>
+                <th>RIB</th>
+                <td>{{ agriculteur.RIB }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ agriculteur.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ agriculteur.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Payment</th>
+                <td>{{ agriculteur.payment }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_agriculteur_index') }}">back to list</a>
+
+    <a href="{{ path('app_agriculteur_edit', {'id': agriculteur.id}) }}">edit</a>
+
+    {{ include('agriculteur/_delete_form.html.twig') }}
+{% endblock %}

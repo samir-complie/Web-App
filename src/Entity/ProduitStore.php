@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: ProduitStoreRepository::class)]
-#[Broadcast]
+
 class ProduitStore
 {
     #[ORM\Id]
@@ -35,11 +35,11 @@ class ProduitStore
 
     #[ORM\ManyToOne(inversedBy: 'produitStores')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Agriculteur $agriculteur_id = null;
+    private ?Agriculteur $agriculteur = null;
 
     #[ORM\ManyToOne(inversedBy: 'produitStores')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?categorie $categorie_id = null;
+    private ?Categorie $categorie = null;
 
     /**
      * @var Collection<int, Panier>
@@ -117,26 +117,26 @@ class ProduitStore
         return $this;
     }
 
-    public function getAgriculteurId(): ?Agriculteur
+    public function getAgriculteur(): ?Agriculteur
     {
-        return $this->agriculteur_id;
+        return $this->agriculteur;
     }
 
-    public function setAgriculteurId(?Agriculteur $agriculteur_id): static
+    public function setAgriculteur(?Agriculteur $agriculteur): static
     {
-        $this->agriculteur_id = $agriculteur_id;
+        $this->agriculteur = $agriculteur;
 
         return $this;
     }
 
-    public function getCategorieId(): ?categorie
+    public function getCategorie(): ?Categorie
     {
-        return $this->categorie_id;
+        return $this->categorie;
     }
 
-    public function setCategorieId(?categorie $categorie_id): static
+    public function setCategorie(?categorie $categorie): static
     {
-        $this->categorie_id = $categorie_id;
+        $this->categorie = $categorie;
 
         return $this;
     }

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: ProduitEnchereRepository::class)]
-#[Broadcast]
+
 class ProduitEnchere
 {
     #[ORM\Id]
@@ -17,38 +17,42 @@ class ProduitEnchere
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $nom = null;
+    private ?string $nomP = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
     #[ORM\Column]
     private ?int $quantie = null;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $prixF = null;
+    
+    private ?float $prixI = null;
 
     #[ORM\Column(length: 255)]
     private ?string $path_img = null;
 
     #[ORM\ManyToOne(inversedBy: 'produitEncheres')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Agriculteur $agriculteur_id = null;
+    private ?Agriculteur $agriculteur = null;
 
     #[ORM\ManyToOne(inversedBy: 'produitEncheres')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?categorie $categorie_id = null;
+    private ?Categorie $categorie = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getNomP(): ?string
     {
-        return $this->nom;
+        return $this->nomP;
     }
 
-    public function setNom(string $nom): static
+    public function setNomP(string $nomP): static
     {
-        $this->nom = $nom;
+        $this->nomP = $nomP;
 
         return $this;
     }
@@ -77,6 +81,29 @@ class ProduitEnchere
         return $this;
     }
 
+    public function getPrixF(): ?int
+    {
+        return $this->quantie;
+    }
+
+    public function setPrixF(int $quantie): static
+    {
+        $this->quantie = $quantie;
+
+        return $this;
+    }
+    public function getprixI(): ?int
+    {
+        return $this->quantie;
+    }
+
+    public function setprixI(int $quantie): static
+    {
+        $this->quantie = $quantie;
+
+        return $this;
+    }
+
     public function getPathImg(): ?string
     {
         return $this->path_img;
@@ -89,26 +116,26 @@ class ProduitEnchere
         return $this;
     }
 
-    public function getAgriculteurId(): ?Agriculteur
+    public function getAgriculteur(): ?Agriculteur
     {
-        return $this->agriculteur_id;
+        return $this->agriculteur;
     }
 
-    public function setAgriculteurId(?Agriculteur $agriculteur_id): static
+    public function setAgriculteur(?Agriculteur $agriculteur): static
     {
-        $this->agriculteur_id = $agriculteur_id;
+        $this->agriculteur = $agriculteur;
 
         return $this;
     }
 
-    public function getCategorieId(): ?categorie
+    public function getCategorie(): ?Categorie
     {
-        return $this->categorie_id;
+        return $this->categorie;
     }
 
-    public function setCategorieId(?categorie $categorie_id): static
+    public function setCategorie(?Categorie $categorie): static
     {
-        $this->categorie_id = $categorie_id;
+        $this->categorie = $categorie;
 
         return $this;
     }

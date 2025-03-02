@@ -1,0 +1,26 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Hello FrontOffice/ProductSingleController!{% endblock %}
+
+{% block body %}
+    <h1>Enchere</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ enchere.id }}</td>
+            </tr>
+            <tr>
+                <th>Derniere_prix</th>
+                <td>{{ enchere.dernierePrix }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_enchere_index') }}">back to list</a>
+
+    <a href="{{ path('app_enchere_edit', {'id': enchere.id}) }}">edit</a>
+
+    {{ include('enchere/_delete_form.html.twig') }}
+{% endblock %}

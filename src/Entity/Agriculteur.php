@@ -10,8 +10,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: AgriculteurRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class Agriculteur implements UserInterface, PasswordAuthenticatedUserInterface
+
+class Agriculteur 
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,19 +19,7 @@ class Agriculteur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    private ?string $email = null;
-
-    /**
-     * @var list<string> The user roles
-     */
-    #[ORM\Column]
-    private array $roles = [];
-
-    /**
-     * @var string The hashed password
-     */
-    #[ORM\Column]
-    private ?string $password = null;
+    private ?string $phone = null;
 
     #[ORM\Column]
     private ?int $RIB = null;
@@ -42,7 +30,7 @@ class Agriculteur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100)]
     private ?string $prenom = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $payment = null;
 
     /**
@@ -75,75 +63,19 @@ class Agriculteur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getPhone(): ?string
     {
-        return $this->email;
+        return $this->phone;
     }
 
-    public function setEmail(string $email): static
+    public function setPhone(string $phone): static
     {
-        $this->email = $email;
+        $this->phone = $phone;
 
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
-
-    /**
-     * @see UserInterface
-     * @return list<string>
-     */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    /**
-     * @param list<string> $roles
-     */
-    public function setRoles(array $roles): static
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): static
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials(): void
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
-
+    
     public function getRIB(): ?int
     {
         return $this->RIB;
@@ -204,7 +136,7 @@ class Agriculteur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->produitStores->contains($produitStore)) {
             $this->produitStores->add($produitStore);
-            $produitStore->setAgriculteurId($this);
+            $produitStore->setAgriculteur($this);
         }
 
         return $this;
@@ -214,8 +146,8 @@ class Agriculteur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->produitStores->removeElement($produitStore)) {
             // set the owning side to null (unless already changed)
-            if ($produitStore->getAgriculteurId() === $this) {
-                $produitStore->setAgriculteurId(null);
+            if ($produitStore->getAgriculteur() === $this) {
+                $produitStore->setAgriculteur(null);
             }
         }
 
@@ -234,7 +166,7 @@ class Agriculteur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->produitEncheres->contains($produitEnchere)) {
             $this->produitEncheres->add($produitEnchere);
-            $produitEnchere->setAgriculteurId($this);
+            $produitEnchere->setAgriculteur($this);
         }
 
         return $this;
@@ -244,8 +176,8 @@ class Agriculteur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->produitEncheres->removeElement($produitEnchere)) {
             // set the owning side to null (unless already changed)
-            if ($produitEnchere->getAgriculteurId() === $this) {
-                $produitEnchere->setAgriculteurId(null);
+            if ($produitEnchere->getAgriculteur() === $this) {
+                $produitEnchere->setAgriculteur(null);
             }
         }
 
@@ -264,7 +196,7 @@ class Agriculteur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->encheres->contains($enchere)) {
             $this->encheres->add($enchere);
-            $enchere->setIdAgriculteur($this);
+            $enchere->setAgriculteur($this);
         }
 
         return $this;
@@ -274,8 +206,8 @@ class Agriculteur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->encheres->removeElement($enchere)) {
             // set the owning side to null (unless already changed)
-            if ($enchere->getIdAgriculteur() === $this) {
-                $enchere->setIdAgriculteur(null);
+            if ($enchere->getAgriculteur() === $this) {
+                $enchere->setAgriculteur(null);
             }
         }
 

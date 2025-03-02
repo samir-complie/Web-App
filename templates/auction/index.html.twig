@@ -1,0 +1,177 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Hello FrontOffice/ProductSingleController!{% endblock %}
+
+{% block javascripts %}
+<script>
+    async function addNewOffer() {
+        try {
+            let response = await fetch('{{ path("update_offer") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Erreur lors de la mise à jour de l\'offre');
+            }
+
+            let result = await response.json();
+            console.log("Nouvelle offre ajoutée :", result.new_offer);
+
+            fetchHistorique();
+        } catch (error) {
+            console.error("Erreur lors de l'ajout de l'offre :", error);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        fetchHistorique();
+
+        const publishButton = document.getElementById("publish-button");
+        if (publishButton) {
+            publishButton.addEventListener("click", addNewOffer);
+        }
+    });
+
+
+    async function fetchHistorique() {
+        try {
+            let response = await fetch('{{ path('historique') }}');
+            let data = await response.json();
+            let container = document.getElementById("historique-table-body");
+            container.innerHTML = ""; 
+
+            data.forEach(entry => {
+                let tr = document.createElement("tr");
+
+                let tdId = document.createElement("td");
+                tdId.textContent = entry.id;
+                tr.appendChild(tdId);
+
+                let tdOffre = document.createElement("td");
+                tdOffre.textContent = entry.offre;
+                tr.appendChild(tdOffre);
+
+                let tdDate = document.createElement("td");
+                tdDate.textContent = entry.date;
+                tr.appendChild(tdDate);
+
+                container.appendChild(tr);
+            });
+        } catch (error) {
+            console.error("Erreur lors de la récupération de l'historique :", error);
+        }
+    }
+
+    async function fetchoffre() { 
+        try {
+            let response = await fetch('{{ path('offre') }}');
+            
+            if (!response.ok) {
+                throw new Error('Failed to fetch offer data');
+            }
+    
+            let data = await response.json();
+            
+            if (data && data.offre) {
+                let offer = data.offre;
+                let container = document.getElementById("offre");
+                
+                // Insert the offer into the circle
+                container.innerHTML = `<p>${offer}millimes</p>` ;  // Display the offer value
+            } else {
+                console.error('No "offre" found in the response');
+            }
+        } catch (error) {
+            console.error("Erreur lors de la récupération de l'offre :", error);
+        }
+    }
+ 
+    setInterval(fetchoffre, 500);
+    setInterval(fetchHistorique, 500);
+</script>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-3 shadow-lg">
+                <div class="card-header text-white" style="background-color: #82ae46;">Détails d'enchère</div>
+                <div class="card-body" style="height: 200px; overflow-y: auto;">
+                    
+                   
+                        <div class="text-center">
+                            <!-- Circular offer display -->
+                            <div id="offre" class="offer-circle">
+                                <!-- The offer will be displayed here -->
+                            </div>
+                        </div>
+                  
+                    
+                    
+                    
+                    
+                </div>
+                <div class="card-body" style="height: 150px; overflow-y: auto;">
+                    <p>{{ product_description }}</p>
+                </div>
+            </div>
+            <div class="card mb-3 shadow-lg">
+                <div class="card-header bg-success text-white" style="background-color: #82ae46 !important;">Offre Récente </div>
+                <div class="card-body" style="height: 200px; overflow-y: auto; overflow-x: hidden;">
+                    <div style="overflow-x: auto;">
+                        <table class="table table-hover table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Offre</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historique-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mb-3">
+                <button class="btn btn-outline-success btn-sm" title="Précédent">◀</button>
+                <button class="btn btn-outline-danger btn-sm mx-2" title="Stop">■</button>
+                <button class="btn btn-outline-success btn-sm" title="Suivant">▶</button>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div id="imageCarousel" class="carousel slide shadow" data-bs-ride="carousel" style="width: 100%; margin: auto; height: 500px;">
+                <div class="carousel-indicators" >
+                    <button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="2"></button>
+                </div>
+                <div class="carousel-inner"  style="width: 100%; margin: auto; height: 100%;" >
+                    <div class="carousel-item active" >
+                        <img src="{{image_produit}}" class="d-block w-100" alt="Nature 1">
+                    </div>
+                    
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+            <div class="card mt-3 text-center shadow-lg">
+                <div class="card-body">
+                    <form action="{{ path('newoffer') }}" method="post">
+                        <button class="btn btn-success mb-3 btn-lg" style="background-color: #82ae46 !important;" type="submit">Ajouter 50 à l'offre</button>
+                    </form>
+                    <p class="mt-2 text-muted">Chaque clic ajoute 50 millimes</p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

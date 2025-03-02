@@ -1,0 +1,25 @@
+.table {
+    min-width: unset !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+.offer-circle {
+    width: 150px; /* Width of the circle */
+    height: 150px; /* Height of the circle (should match the width for perfect circle) */
+    background-color: #28a745; /* Green background (Bootstrap's green) */
+    border-radius: 50%; /* This makes it a circle */
+    color: white; /* White text color */
+    font-size: 1.5em; /* Larger font size */
+    display: flex; /* Flexbox to center content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    margin: 0 auto; /* Center the circle in the container */
+    box-shadow: none; /* Remove shadow to eliminate box */
+    border: none; /* Remove any border (if any) */
+    padding: 10px; /* Optional: You can add padding if you want more space around the text */
+    overflow-y: hidden; /* Prevent vertical scrollbar */
+    overflow-x: hidden; /* Optional: Prevent horizontal scrollbar */
+}
+.bg-success-custom {
+    background-color: #82ae46 !important;
+}

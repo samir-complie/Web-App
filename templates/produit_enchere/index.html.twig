@@ -1,0 +1,45 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Hello FrontOffice/ProductSingleController!{% endblock %}
+
+{% block body %}
+    <h1>ProduitEnchere index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NomP</th>
+                <th>Description</th>
+                <th>Quantie</th>
+                <th>PrixF</th>
+                <th>PrixI</th>
+                <th>Path_img</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for produit_enchere in produit_encheres %}
+            <tr>
+                <td>{{ produit_enchere.id }}</td>
+                <td>{{ produit_enchere.nomP }}</td>
+                <td>{{ produit_enchere.description }}</td>
+                <td>{{ produit_enchere.quantie }}</td>
+                <td>{{ produit_enchere.prixF }}</td>
+                <td>{{ produit_enchere.prixI }}</td>
+                <td>{{ produit_enchere.pathImg }}</td>
+                <td>
+                    <a href="{{ path('app_produit_enchere_show', {'id': produit_enchere.id}) }}">show</a>
+                    <a href="{{ path('app_produit_enchere_edit', {'id': produit_enchere.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_produit_enchere_new') }}">Create new</a>
+{% endblock %}
