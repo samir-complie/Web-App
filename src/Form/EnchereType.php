@@ -17,10 +17,10 @@ class EnchereType extends AbstractType
     {
         $builder
             ->add('derniere_prix')
-            ->add('id_gagnant', EntityType::class, [
-                'class' => Users::class,
-'choice_label' => 'id',
+            ->add('date', null, [
+                'widget' => 'single_text'
             ])
+          
             ->add('id_agriculteur', EntityType::class, [
                 'class' => Agriculteur::class,
 'choice_label' => 'id',

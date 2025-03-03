@@ -15,6 +15,10 @@
                 <th>Derniere_prix</th>
                 <td>{{ enchere.dernierePrix }}</td>
             </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ enchere.date ? enchere.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
         </tbody>
     </table>
 

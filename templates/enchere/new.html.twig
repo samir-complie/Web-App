@@ -1,11 +1,16 @@
 {% extends 'base_front.html.twig' %}
 
-{% block title %}Hello FrontOffice/ProductSingleController!{% endblock %}
+{% block title %}Create New Enchere{% endblock %}
 
 {% block body %}
-    <h1>Create new Enchere</h1>
+    <div class="container mt-5">
+        <h1 class="mb-4">Create New Enchere</h1>
 
-    {{ include('enchere/_form.html.twig') }}
+        <!-- Include the form, make sure '_form.html.twig' has Bootstrap styling -->
+        {{ include('enchere/_form.html.twig') }}
 
-    <a href="{{ path('app_enchere_index') }}">back to list</a>
+        <div class="mt-4">
+            <a href="{{ path('app_enchere_index') }}" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
 {% endblock %}

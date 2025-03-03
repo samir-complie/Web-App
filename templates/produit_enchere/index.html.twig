@@ -3,43 +3,50 @@
 {% block title %}Hello FrontOffice/ProductSingleController!{% endblock %}
 
 {% block body %}
-    <h1>ProduitEnchere index</h1>
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">ProduitEnchere Index</h1>
 
-    <table class="table">
-        <thead>
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
             <tr>
                 <th>Id</th>
-                <th>NomP</th>
+                <th>Nom</th>
                 <th>Description</th>
-                <th>Quantie</th>
-                <th>PrixF</th>
-                <th>PrixI</th>
-                <th>Path_img</th>
-                <th>actions</th>
+                <th>Quantité</th>
+                <th>Image Path</th>
+                <th>Prix Final</th>
+                <th>Prix Initial</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for produit_enchere in produit_encheres %}
             <tr>
                 <td>{{ produit_enchere.id }}</td>
-                <td>{{ produit_enchere.nomP }}</td>
+                <td>{{ produit_enchere.nom }}</td>
                 <td>{{ produit_enchere.description }}</td>
                 <td>{{ produit_enchere.quantie }}</td>
+                <td>{{ produit_enchere.pathImg }}</td>
                 <td>{{ produit_enchere.prixF }}</td>
                 <td>{{ produit_enchere.prixI }}</td>
-                <td>{{ produit_enchere.pathImg }}</td>
+                
+               
+              
                 <td>
-                    <a href="{{ path('app_produit_enchere_show', {'id': produit_enchere.id}) }}">show</a>
-                    <a href="{{ path('app_produit_enchere_edit', {'id': produit_enchere.id}) }}">edit</a>
+                    <a href="{{ path('app_produit_enchere_show', {'id': produit_enchere.id}) }}" class="btn btn-primary btn-sm">Show</a>
+                    <a href="{{ path('app_produit_enchere_edit', {'id': produit_enchere.id}) }}" class="btn btn-warning btn-sm">Edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8" class="text-center">No records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_produit_enchere_new') }}">Create new</a>
+    <div class="text-center mt-4">
+        <a href="{{ path('app_produit_enchere_new') }}" class="btn btn-success">Create New</a>
+    </div>
+</div>
 {% endblock %}

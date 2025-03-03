@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EnchereRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 
@@ -29,6 +30,9 @@ class Enchere
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?ProduitEnchere $id_Produit_enchere = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
 
     public function getId(): ?int
     {
@@ -79,6 +83,18 @@ class Enchere
     public function setIdProduitEnchere(ProduitEnchere $id_Produit_enchere): static
     {
         $this->id_Produit_enchere = $id_Produit_enchere;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): static
+    {
+        $this->date = $date;
 
         return $this;
     }
