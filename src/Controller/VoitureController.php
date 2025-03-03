@@ -22,6 +22,22 @@ final class VoitureController extends AbstractController
         ]);
     }
 
+    #[Route('/filtrer', name: 'app_voiture_filter', methods: ['GET', 'POST'])]
+    public function filter(Request $request, EntityManagerInterface $entityManager): Response
+   {
+        $matricule = $request->query->get('matricule', ''); 
+        
+        $query = $entityManager->createQuery(
+            'SELECT v FROM App\Entity\Voiture v WHERE v.matricule LIKE :matricule'
+        )->setParameter('matricule', '%' . $matricule . '%');
+
+        $voitures = $query->getResult();
+        return $this->render('voiture/index.html.twig', [
+            'voitures' => $voitures,
+        ]);
+       
+    }
+
     #[Route('/new', name: 'app_voiture_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {

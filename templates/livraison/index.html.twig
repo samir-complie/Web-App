@@ -3,30 +3,55 @@
 {% block title %}Livraisons - FrontOffice{% endblock %}
 
 {% block body %}
-        <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-            <div class="collapse navbar-collapse" id="ftco-nav">
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+        </div>
+    {% endfor %}
+{% endfor %}
+
+        <div class="container mt-4">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
                   <li class="nav-item active"><a href="{{path('app_livraison_index')}}" class="nav-link">Livraison</a></li>
                   <li class="nav-item active"><a href="{{path('app_voiture_index')}}" class="nav-link">Voiture</a></li>
                   <li class="nav-item active"><a href="{{path('app_transporteur_index')}}" class="nav-link">Transporteur</a></li>
                 </ul>
-              </div>
+                </div>
             
-          </nav>
+            </nav>
+
     <div class="container mt-4">
-        <h1 class="text-center text-success">Livraison index</h1>
+
+        <h1 class="text-center text-success">Liste des Livraisons</h1>
+
+    <form method="get" action="{{ path('app_livraison_index') }}" class="mb-4">
+        <div class="input-group">
+            <select name="etat" class="form-control">
+                <option value="">Filtrer par état de livraison</option>
+                <option value="Livrée" {% if app.request.query.get('etat') == 'Livrée' %}selected{% endif %}>Livrée</option>
+                <option value="Non Livrée" {% if app.request.query.get('etat') == 'Non Livrée' %}selected{% endif %}>Non Livrée</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Filtrer</button>
+        </div>
+    </form> 
 
     <table class="table table-hover mt-3">
     
         <thead class="thead-light">
             <tr>
-                <th>Id</th>
+                <th>Id_livraison</th>
                 <th>Etat livraison</th>
+                <th>Date de livraison</th>
                 <th>Transporteur</th>
                 <th>Voiture</th>
                 <th>Actions</th>
             </tr>
         </thead>
+
         <tbody>
         {% for livraison in livraisons %}
             <tr>
@@ -37,26 +62,78 @@
                             {% else %}
                                 <span class="badge badge-danger">Non Livrée</span>
                             {% endif %}
-                        </td>
-                <td>{{ livraison.transporteur.nom }} {{ livraison.transporteur.prenom}}</td> 
-                <td>{{ livraison.voiture.matricule }}</td>
+                </td>
                 <td>
-                    <a href="{{ path('app_livraison_show', {'id': livraison.id}) }}">Voir</a>
-                    <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}">Modifier</a>
+                            {% if livraison.dateLivraison %}
+                                {{ livraison.dateLivraison|date('d/m/Y') }} 
+                            {% else %}
+                                <span class="text-muted">Pas encore définie</span> 
+                            {% endif %}
+                </td>
+
+                <td>
+                {% if livraison.transporteur is null %}
+                    <span>Non Affecté</span>
+                {% else %}
+                    {{ livraison.transporteur.nom }} {{ livraison.transporteur.prenom}}
+
+                {% endif %}
+                </td>
+                <td>{{ livraison.voiture.matricule }}</td>
+             
+                <td class="d-flex gap-2">
+                    <a href="{{ path('app_livraison_show', {'id': livraison.id}) }}" class="btn btn-info btn-sm">Voir</a>
+                    <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+
+                    
+                    
+                    
+                    {% if not livraison.transporteur %}
+                            <a href="{{ path('app_livraison_affecter_transporteur', {'id': livraison.id}) }}" class="btn btn-success btn-sm btn-affecter">
+                             <i class="bi bi-truck"></i> Affecter Transporteur
+                            </a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5" class="text-center text-muted">Aucune livraison trouvée </td>
-            </tr>
+                <td colspan="6" class="text-center text-muted">Aucune livraison trouvée </td>
+            </tr> 
         {% endfor %}
         </tbody>
     </table>
-    <div class="text-right">
-        <a href="{{ path('app_livraison_new') }}" class="btn btn-success btn-lg mt-3">
+    <div class="text-center mt-4">
+        <a href="{{ path('app_livraison_new') }}" class="btn btn-success rounded-pill px-4">
             <i class="bi bi-plus"></i> Créer une nouvelle livraison 
         </a>
     </div>
 </div>
+</div> 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.btn-affecter').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            let url = this.href;
+
+            Swal.fire({
+                title: "Confirmer l'affectation ?",
+                text: "Voulez-vous vraiment affecter ce transporteur ?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#28a745",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Oui, affecter"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            });
+        });
+    });
+});
+</script>
+
+
 
 {% endblock %}

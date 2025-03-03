@@ -12,23 +12,32 @@
     <table class="table table-bordered">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th class="bg-light"&>Id</th>
                 <td>{{ transporteur.id }}</td>
             </tr>
             <tr>
-                <th>Nom</th>
+                <th class="bg-light">Nom</th>
                 <td>{{ transporteur.nom }}</td>
             </tr>
             <tr>
-                <th>Prenom</th>
+                <th class="bg-light">Prenom</th>
                 <td>{{ transporteur.prenom }}</td>
             </tr>
             <tr>
-                <th>Is_disponible</th>
+                <th class="bg-light">Is_disponible</th>
                 <td>{{ transporteur.isDisponible ? 'Yes' : 'No' }}</td>
             </tr>
+
+            <tr>
+                <th class="bg-light">QR Code: </th>
+                <td>
+                    <img src="{{ asset('images/qr_codes/qr_' ~ transporteur.id ~ '.svg') }}" alt="QR Code" width="150" height="150">
+                </td> 
+            </tr>  
+
         </tbody>
     </table>
+    
 
      <div class="text-center mt-4">
                     <a href="{{ path('app_transporteur_index') }}" class="btn btn-secondary">Retour à la liste</a>

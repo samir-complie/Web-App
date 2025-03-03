@@ -11,7 +11,7 @@
     <table class="table table-bordered text-center align-middle">
         <tbody>
             <tr>
-                <th>Id: </th>
+                <th class="bg-light">Id: </th>
                 <td>{{ livraison.id }}</td>
             </tr>
             <tr>
@@ -25,8 +25,18 @@
                     </td>
             </tr>
             <tr>
+                <th class="bg-light">date de livraison </th>
+                <td>{{ livraison.dateLivraison|date('d/m/Y') }} </td>
+            </tr>
+            <tr>
                 <th class="bg-light">Transporteur: </th>
-                <td>{{ livraison.transporteur.nom }} {{ livraison.transporteur.prenom }}</td>
+                <td>
+                    {% if livraison.transporteur %}
+                        {{ livraison.transporteur.nom }} {{ livraison.transporteur.prenom }}
+                    {% else %}
+                        <span class="text-muted">Non affecté</span>
+                    {% endif %}
+                </td>
             </tr>
             <tr>
                 <th class="bg-light">Voiture: </th>
@@ -47,6 +57,12 @@
                     <i class="bi bi-trash"></i> Supprimer
                 </button>
             </form>
+
+            {% if not livraison.transporteur %}
+                    <a href="{{ path('app_livraison_affecter_transporteur', {'id': livraison.id}) }}" class="btn btn-success">
+                        <i class="bi bi-truck"></i> Affecter un transporteur
+                    </a>
+            {% endif %}
         </div>
     </div>
 </div>

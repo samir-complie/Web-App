@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Voiture;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
 /**
  * @extends ServiceEntityRepository<Voiture>
@@ -39,5 +40,7 @@ class VoitureRepository extends ServiceEntityRepository
     //            ->getQuery()
     //            ->getOneOrNullResult()
     //        ;
-    //    }
-}
+    //   
+  
+}  
+

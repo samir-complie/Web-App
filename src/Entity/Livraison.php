@@ -5,11 +5,14 @@ namespace App\Entity;
 use App\Repository\LivraisonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: LivraisonRepository::class)]
-#[Broadcast]
+#[Broadcast] 
 class Livraison
 {
     #[ORM\Id]
@@ -26,7 +29,7 @@ class Livraison
     private Collection $id_commande;
 
     #[ORM\ManyToOne(inversedBy: 'livraisons')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Transporteur $transporteur = null;
 
     public function getTransporteur(): ?Transporteur
@@ -59,6 +62,12 @@ class Livraison
 
     #[ORM\Column(length: 255)]
     private ?string $etat_livraison = null;
+    
+    #[Assert\NotBlank(message: 'Veuillez sélectionner une date de livraison.')]  
+    #[ORM\Column(type: 'datetime')]
+    
+    
+    private ?\DateTimeInterface $date_livraison = null;
 
     public function __construct() 
     {
@@ -91,8 +100,7 @@ class Livraison
     public function removeIdCommande(Commande $idCommande): static
     {
         if ($this->id_commande->removeElement($idCommande)) {
-            // set the owning side to null (unless already changed)
-            if ($idCommande->getLivraison() === $this) {
+                if ($idCommande->getLivraison() === $this) {
                 $idCommande->setLivraison(null);
             }
         }
@@ -111,4 +119,15 @@ class Livraison
 
         return $this;
     }
-}
+    
+    public function getDateLivraison(): ?\DateTimeInterface
+    {
+        return $this->date_livraison;
+    }
+    
+    public function setDateLivraison(?\DateTimeInterface $date_livraison): self
+    {
+        $this->date_livraison = $date_livraison;
+        return $this;
+    }
+} 
